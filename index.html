@@ -18,6 +18,10 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"SoftwareApplication","name":"Claude VPN MCP","applicationCategory":"DeveloperApplication","operatingSystem":"Linux (Docker Compose)","description":"Open-source MCP starter kit: Claude controls an isolated remote Chromium browser routed through a WireGuard gateway.","author":{"@type":"Organization","name":"MoniliAI","url":"https://monili-vlr.github.io/"}}
 </script>
+<style id="mai-home-css">.mai-home{display:inline-flex;align-items:center;gap:7px;padding:5px 12px 5px 6px;border-radius:999px;border:1px solid rgba(128,128,140,.38);background:rgba(128,128,140,.10);color:inherit;font:600 13.5px/1.2 system-ui,-apple-system,"Segoe UI",sans-serif;text-decoration:none;white-space:nowrap;transition:border-color .2s}
+.mai-home:hover{border-color:#A5B4FC;text-decoration:none}
+.mai-home i{width:20px;height:20px;border-radius:6px;display:grid;place-items:center;background:linear-gradient(100deg,#5EEAD4,#A5B4FC 34%,#F0ABFC 66%,#FDBA74);flex:none}
+.mai-home i svg{width:12px;height:12px}</style>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -26,6 +30,7 @@
     <a class="logo" href="#top" aria-label="Claude VPN MCP, home"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 4 56 13v17c0 15-10 26-24 30C18 56 8 45 8 30V13z" fill="#10303A" stroke="#3FD0B0" stroke-width="3"/><path d="M18 34c6-10 22-10 28 0M24 40c4-5 12-5 16 0" fill="none" stroke="#3FD0B0" stroke-width="3" stroke-linecap="round"/><circle cx="32" cy="45" r="3" fill="#3FD0B0"/></svg>Claude VPN MCP</a>
     <button class="menu" aria-expanded="false" aria-controls="navlinks">Menu</button>
     <ul id="navlinks">
+      <li><a class="mai-home" href="https://monili-vlr.github.io/" title="All MoniliAI products"><i aria-hidden="true"><svg viewBox="0 0 18 18"><path d="M3.5 13.5V5l5.5 5.5L14.5 5v8.5" fill="none" stroke="#0B0C11" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></i>MoniliAI</a></li>
       <li><a href="#video">Video</a></li>
       <li><a href="#what">What you write</a></li>
       <li><a href="#how">How it works</a></li>
@@ -230,12 +235,14 @@
   const menu = document.querySelector('.menu'), links = document.getElementById('navlinks');
   menu.addEventListener('click', () => { const o = links.classList.toggle('open'); menu.setAttribute('aria-expanded', o); });
   links.addEventListener('click', e => { if (e.target.tagName === 'A') { links.classList.remove('open'); menu.setAttribute('aria-expanded', false); } });
-  document.getElementById('poster').addEventListener('click', () => {
-    const f = document.createElement('iframe');
-    f.src = 'video/claude-vpn-mcp-video.html?autoplay=1'; f.title = 'Claude VPN MCP video'; f.allow = 'autoplay; fullscreen'; f.allowFullScreen = true;
-    document.getElementById('player').replaceChildren(f);
-    f.addEventListener('load', () => { try { f.contentWindow.focus(); } catch (e) { /* cross-origin */ } });
-  });
+(() => { // video: the player loads in the background, the click starts it at once with the voice
+  const box = document.getElementById('player'), poster = document.getElementById('poster');
+  const f = document.createElement('iframe');
+  f.src = 'video/claude-vpn-mcp-video.html?autoplay=0'; f.title = 'Claude VPN MCP video'; f.allow = 'autoplay; fullscreen'; f.allowFullscreen = true; f.loading = 'lazy';
+  box.prepend(f); poster.style.zIndex = 2;
+  const go = () => { try { f.contentWindow.__gm.start(); f.contentWindow.focus(); } catch (e) { /* not ready yet */ } };
+  poster.addEventListener('click', () => { poster.remove(); if (f.contentWindow && f.contentWindow.__gm) go(); else f.addEventListener('load', go, { once: true }); });
+})();
   // hero: replay the example calls, one by one (static and complete without motion)
   if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
     const li = [...document.querySelectorAll('#calls li')], out = document.getElementById('out'), full = out.textContent;
