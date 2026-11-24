@@ -4,19 +4,19 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Claude VPN MCP · Write where you want to be, Claude does the rest</title>
-<meta name="description" content="Write to Claude: activate my location in California. Claude VPN MCP starts an isolated browser that goes online from there and verifies the exit. Open-source MCP connector.">
+<meta name="description" content="Write to Claude: activate my location in California. Claude VPN MCP opens an isolated browser that goes online from there through Tor and verifies the exit. Free: no VPN, no account, no server.">
 <meta name="theme-color" content="#071014">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="canonical" href="https://monili-vlr.github.io/claude-vpn-mcp/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Claude VPN MCP · Write where you want to be">
-<meta property="og:description" content="Open-source MCP starter kit: an isolated remote browser for Claude, online through your own WireGuard exit.">
+<meta property="og:description" content="Free, through Tor: an isolated browser for Claude, online from the place you choose.">
 <meta property="og:image" content="https://monili-vlr.github.io/claude-vpn-mcp/og.jpg">
 <meta property="og:url" content="https://monili-vlr.github.io/claude-vpn-mcp/">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="stylesheet" href="styles.css">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Claude VPN MCP","applicationCategory":"DeveloperApplication","operatingSystem":"Linux (Docker Compose)","description":"Open-source MCP starter kit: Claude controls an isolated remote Chromium browser routed through a WireGuard gateway.","author":{"@type":"Organization","name":"MoniliAI","url":"https://monili-vlr.github.io/"}}
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Claude VPN MCP","applicationCategory":"DeveloperApplication","operatingSystem":"Windows, macOS, Linux (Claude Desktop)","offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"description":"Free MCP connector for Claude: an isolated browser that goes online from the place you choose, through Tor.","author":{"@type":"Organization","name":"MoniliAI","url":"https://monili-vlr.github.io/"}}
 </script>
 <style id="mai-home-css">.mai-home{display:inline-flex;align-items:center;gap:7px;padding:5px 12px 5px 6px;border-radius:999px;border:1px solid rgba(128,128,140,.38);background:rgba(128,128,140,.10);color:inherit;font:600 13.5px/1.2 system-ui,-apple-system,"Segoe UI",sans-serif;text-decoration:none;white-space:nowrap;transition:border-color .2s}
 .mai-home:hover{border-color:#A5B4FC;text-decoration:none}
@@ -35,12 +35,13 @@
       <li><a href="#what">What you write</a></li>
       <li><a href="#how">How it works</a></li>
       <li><a href="#tools">Tools</a></li>
+      <li><a href="#why-tor">Why Tor</a></li>
       <li><a href="#setup">Setup</a></li>
       <li><a href="#specs">Specs</a></li>
       <li><a href="#limits">Limits</a></li>
       <li><a href="#faq">FAQ</a></li>
     </ul>
-    <a class="btn pri" href="#access">Request the kit</a>
+    <a class="btn pri" href="#access">Get the connector</a>
   </nav>
 </header>
 
@@ -48,20 +49,20 @@
 <section class="hero" id="top">
   <div class="wrap">
     <div>
-      <div class="eyebrow">MCP connector for Claude · open source</div>
+      <div class="eyebrow">Free · built on Tor · MCP connector for Claude</div>
       <h1>Write where you want to be. <span>Claude does the rest.</span></h1>
-      <p class="lead">Write "activate my location in California" and Claude starts an isolated browser that goes online from there, checks that the exit really is in California, and tells you the city. No files to edit, no commands to type.</p>
-      <div class="cta"><a class="btn pri" href="#video">▶ Watch the video · 2 min</a><a class="btn sec" href="#access">Request the kit</a></div>
+      <p class="lead">Write "activate my location in California" and Claude opens an isolated browser that goes online from there through Tor, checks that the exit really is in California, and tells you the city. Free: no VPN to install, no account, no server.</p>
+      <div class="cta"><a class="btn pri" href="#video">▶ Watch the video · 2 min</a><a class="btn sec" href="#access">Get the connector</a></div>
     </div>
     <div class="chat" aria-label="Example of a prompt and of the tools Claude calls">
       <div class="bar"><span class="you">You write</span><span class="typed" id="typed">Activate my location in California.</span></div>
       <ol id="calls">
         <li class="on"><b>✓</b><span>understands the place</span><code>vpn_activate</code></li>
-        <li class="on"><b>✓</b><span>starts a gateway and a browser there</span><code>vpn_activate</code></li>
-        <li class="on"><b>✓</b><span>checks where the exit really is</span><code>geolocation</code></li>
-        <li class="on"><b>✓</b><span>confirms the place</span><code>vpn_status</code></li>
+        <li class="on"><b>✓</b><span>finds Tor exits in California</span><code>Tor relay list</code></li>
+        <li class="on"><b>✓</b><span>builds a route that leaves only there</span><code>guard → middle → exit</code></li>
+        <li class="on"><b>✓</b><span>checks where the exit really is, and confirms</span><code>geolocation</code></li>
       </ol>
-      <div class="out" id="out">Your location is active in San Jose, California. Exit IP verified. What would you like to open?</div>
+      <div class="out" id="out">Your location is active in Los Angeles, California, through Tor. Exit verified. What would you like to open?</div>
       <p class="note" style="margin:10px 0 0">Example conversation.</p>
     </div>
   </div>
@@ -69,11 +70,11 @@
 
 <section id="video" class="alt">
   <div class="wrap">
-    <div class="head"><div class="eyebrow">Video</div><h2>Everything happens by writing</h2><p class="lead">Activate a place, open pages from there, move, check and turn it off, all in plain words.</p></div>
+    <div class="head"><div class="eyebrow">Video</div><h2>Everything happens by writing</h2><p class="lead">Activate a place, open pages from there, move, check and turn it off, all in plain words, for free, through Tor.</p></div>
     <div class="player" id="player">
       <button class="poster" id="poster" aria-label="Play the Claude VPN MCP video with voice"><span class="play"><span class="tt">Claude VPN MCP</span><i>▶</i>Play with voice</span></button>
     </div>
-    <div class="vmeta"><span>English voice · 2:27</span><span>Space pauses · F full screen · M voice on or off</span><a href="video/claude-vpn-mcp-video.html" target="_blank" rel="noopener">Open in a new tab ↗</a></div>
+    <div class="vmeta"><span>English voice · 2:43</span><span>Space pauses · F full screen · M voice on or off</span><a href="video/claude-vpn-mcp-video.html" target="_blank" rel="noopener">Open in a new tab ↗</a></div>
   </div>
 </section>
 
@@ -81,11 +82,11 @@
   <div class="wrap">
     <div class="head"><div class="eyebrow">What you can write</div><h2>Plain words, in your language</h2><p class="lead">Some pages change with the country: prices, language, offers, availability. Ask Claude to see them the way people there do.</p></div>
     <div class="prompts">
-      <div class="pq"><span>"Activate my location in California."</span><p>Starts a browser that goes online from California and verifies the exit.</p></div>
+      <div class="pq"><span>"Activate my location in California."</span><p>Opens a browser that goes online from California through Tor, and verifies the exit.</p></div>
       <div class="pq"><span>"Now open example.com and tell me the title."</span><p>Opens the page from there: address, title and status.</p></div>
       <div class="pq"><span>"Move me to Tokyo."</span><p>Activates Tokyo and makes it the current place.</p></div>
       <div class="pq"><span>"Where am I browsing from?"</span><p>Exit IP, city, region and country, as geolocated.</p></div>
-      <div class="pq"><span>"Turn off California."</span><p>Removes the browser, then its gateway.</p></div>
+      <div class="pq"><span>"Turn off California."</span><p>Closes the browser, then its Tor client.</p></div>
       <div class="pq"><span>"Attiva la mia posizione in Italia."</span><p>Places are understood in English, Italian and Spanish.</p></div>
     </div>
     <div class="uses" style="margin-top:42px">
@@ -99,109 +100,120 @@
 
 <section id="how" class="alt">
   <div class="wrap">
-    <div class="head"><div class="eyebrow">How it works</div><h2>One gateway and one browser for each place</h2><p class="lead">When you ask for a place, the server starts a WireGuard gateway filtered to that place and an isolated browser that shares its network. Only that browser goes through the tunnel.</p></div>
+    <div class="head"><div class="eyebrow">How it works</div><h2>A private route through Tor, built for each place</h2><p class="lead">Everything runs on your computer, inside the connector. When you ask for a place, it finds Tor exit relays there and builds a route that may leave the Tor network only through them.</p></div>
     <div class="arch">
       <div class="node"><b>Claude</b><span>your chat, with the connector</span></div>
-      <div class="node"><b>MCP server</b><span>HTTPS, bearer token, starts and stops places</span></div>
-      <div class="node ns"><b>Gateway</b><span>gluetun with your VPN provider, firewall on</span></div>
-      <div class="node ns"><b>Browser</b><span>isolated Chromium, Playwright</span></div>
-      <div class="node"><b>Internet</b><span>from the place you asked for</span></div>
+      <div class="node"><b>Connector</b><span>on your computer, with its own isolated browser</span></div>
+      <div class="node ns"><b>Guard</b><span>first Tor relay, first layer of encryption</span></div>
+      <div class="node ns"><b>Middle</b><span>second relay, in another country</span></div>
+      <div class="node ns"><b>Exit</b><span>third relay, in the place you asked for</span></div>
     </div>
-    <div class="archnote"><span>one pair for each active place, up to three at a time</span></div>
+    <div class="archnote"><span>one Tor route and one browser for each active place, up to three at a time</span></div>
     <div class="two" style="margin-top:34px">
-      <div class="box"><h3>The place is verified, not assumed</h3><p style="color:var(--mute);margin:0">After starting, the browser geolocates its own exit IP with two independent services. If the exit is somewhere else, the gateway is restarted and the provider picks another server, up to three times. Otherwise Claude tells you why it could not.</p></div>
-      <div class="box"><h3>Docker, behind a guard</h3><p style="color:var(--mute);margin:0">The server starts containers through a socket proxy that allows only container and network operations, never the raw Docker socket.</p></div>
+      <div class="box"><h3>Why changing place takes a moment</h3><p style="color:var(--mute);margin:0">A new place means a new route. The connector reads the public list of Tor exit relays, keeps those in the place you asked for, and builds a circuit through three relays in different countries, agreeing a separate encryption key with each one, one after the other. That handshake is what keeps the route private. It takes a few seconds; then the place stays ready until you turn it off.</p></div>
+      <div class="box"><h3>The place is verified, not assumed</h3><p style="color:var(--mute);margin:0">After the route is built, the exit IP is geolocated through the tunnel with two independent services. If the exit is somewhere else, the connector tries another group of exits, up to three times. Otherwise Claude tells you why it could not.</p></div>
     </div>
   </div>
 </section>
 
-<section id="tools">
+<section id="why-tor">
+  <div class="wrap">
+    <div class="head"><div class="eyebrow">Why Tor</div><h2>Free, private by design, already inside the connector</h2></div>
+    <div class="tools">
+      <div class="tool"><h3 style="font-size:19px">Free</h3><p>No subscription, no account, nothing to pay. Tor is run by the non-profit Tor Project and by volunteers.</p></div>
+      <div class="tool"><h3 style="font-size:19px">Nothing else to install</h3><p>Tor comes inside the connector, downloaded once from the Tor Project and checked against its published checksum.</p></div>
+      <div class="tool"><h3 style="font-size:19px">Three layers of encryption</h3><p>Each relay removes only its own layer: no single relay knows both who you are and where you are going.</p></div>
+      <div class="tool"><h3 style="font-size:19px">No provider in the middle</h3><p>No company sees all your traffic or keeps it, because there is no single provider.</p></div>
+      <div class="tool"><h3 style="font-size:19px">A worldwide network</h3><p>Thousands of volunteer relays, with exits in dozens of countries and many US states.</p></div>
+      <div class="tool"><h3 style="font-size:19px">Names stay in the tunnel</h3><p>Website names are resolved by Tor, not by your own connection.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="tools" class="alt">
   <div class="wrap">
     <div class="head"><div class="eyebrow">Tools</div><h2>Five functions, chosen by Claude</h2><p class="lead">You never call them. You write what you want, Claude picks the right one.</p></div>
     <div class="tools">
-      <div class="tool"><code>vpn_activate</code><p>Starts a place, verifies the exit really is there and makes it current.</p><span class="sig">"Activate my location in California"</span></div>
+      <div class="tool"><code>vpn_activate</code><p>Finds Tor exits in that place, builds the route, verifies the exit and makes it current.</p><span class="sig">"Activate my location in California"</span></div>
       <div class="tool"><code>vpn_locations</code><p>Places active now, the current one, and examples you can ask for.</p><span class="sig">"Which places can I use?"</span></div>
       <div class="tool"><code>vpn_status</code><p>Exit IP and its real city, region and country.</p><span class="sig">"Where am I browsing from?"</span></div>
-      <div class="tool"><code>vpn_deactivate</code><p>Turns a place off: the browser first, then its gateway.</p><span class="sig">"Turn off California"</span></div>
+      <div class="tool"><code>vpn_deactivate</code><p>Turns a place off: the browser first, then its Tor client.</p><span class="sig">"Turn off California"</span></div>
       <div class="tool"><code>browser_open</code><p>Opens a public page from the current place: final address, title and HTTP status.</p><span class="sig">"Open this page and tell me the title"</span></div>
-      <div class="tool" style="border-style:dashed"><h3 style="font-size:17px">Places it knows by name</h3><p>US states such as California, New York and Texas, many countries, and cities like Tokyo, London, Paris and Milan. Other countries served by your VPN provider can be asked for by name.</p></div>
+      <div class="tool" style="border-style:dashed"><h3 style="font-size:17px">Places it knows by name</h3><p>US states such as California, New York and Texas, many countries, and cities like Tokyo, London, Paris and Milan. Any country with Tor exits can be asked for by name.</p></div>
     </div>
   </div>
 </section>
 
-<section id="safety" class="alt">
+<section id="safety">
   <div class="wrap">
-    <div class="head"><div class="eyebrow">Safety</div><h2>What the kit already protects</h2></div>
+    <div class="head"><div class="eyebrow">Safety</div><h2>What the connector already protects</h2></div>
     <ul class="checks">
-      <li><div><b>Secret bearer token</b><span>Every MCP call and every call to a browser needs it. Only the health check is open.</span></div></li>
-      <li><div><b>Localhost-only server port</b><span>The MCP service listens on 127.0.0.1:8080. You publish it through your own HTTPS proxy.</span></div></li>
-      <li><div><b>Only public HTTP and HTTPS</b><span>Other schemes are refused with a 400.</span></div></li>
-      <li><div><b>Local and private IPs blocked</b><span>localhost and private, loopback and reserved IP addresses are refused with a 403.</span></div></li>
-      <li><div><b>No leaks on turn off</b><span>The browser is removed before its gateway, so it never goes online outside the tunnel.</span></div></li>
+      <li><div><b>Runs on your computer</b><span>No server to expose and no port open to the internet.</span></div></li>
+      <li><div><b>One route per place</b><span>Each place has its own Tor client and its own isolated browser.</span></div></li>
+      <li><div><b>Only public HTTP and HTTPS</b><span>Other schemes, localhost and private, loopback and reserved addresses are refused.</span></div></li>
+      <li><div><b>No leaks on turn off</b><span>The browser is closed before its Tor client.</span></div></li>
       <li><div><b>Untrusted pages</b><span>Pages can contain prompt injection. Only address, title and status come back to Claude.</span></div></li>
+      <li><div><b>Checked download</b><span>The Tor Expert Bundle is compared with the SHA-256 sums published by the Tor Project before use.</span></div></li>
     </ul>
   </div>
 </section>
 
-<section id="setup">
+<section id="setup" class="alt">
   <div class="wrap">
-    <div class="head"><div class="eyebrow">Setup</div><h2>Set up once, then just write</h2><p class="lead">Whoever hosts the kit does this once, in about ten minutes. After that, every place is a prompt. The software is free and open source; the server and the VPN subscription may cost money.</p></div>
-    <div class="reqs"><span>A Linux server with Docker</span><span>A VPN subscription with WireGuard (for example Mullvad, Proton VPN, NordVPN, Surfshark)</span><span>An HTTPS address</span></div>
+    <div class="head"><div class="eyebrow">Setup</div><h2>Install once, then just write</h2><p class="lead">No VPN, no account, no server, nothing to pay. You need Python and Claude Desktop.</p></div>
     <div class="steps">
-      <div class="st"><div><h3>Run the installer</h3><p>It asks a few plain questions: your VPN provider, its WireGuard key and, if your provider gave you one, an address. It generates the secret token by itself.</p><pre>./install.sh</pre></div></div>
-      <div class="st"><div><h3>Add the connector in Claude</h3><p>Settings, Connectors, Add custom connector, then <code>https://YOUR_DOMAIN/mcp</code> with the token the installer printed.</p></div></div>
-      <div class="st"><div><h3>Write</h3><p>"Activate my location in California." That is all.</p></div></div>
+      <div class="st"><div><h3>Install the connector</h3><pre>pip install -r requirements.txt</pre></div></div>
+      <div class="st"><div><h3>Add it to Claude Desktop</h3><p>Settings, Developer, Edit config, then add the connector with the path of <code>server.py</code> on your computer, and restart Claude.</p><pre>"claude-vpn": { "command": "python", "args": ["C:/path/to/claude-vpn-mcp/server.py"] }</pre></div></div>
+      <div class="st"><div><h3>Write</h3><p>"Activate my location in California." The first time, Tor and the browser engine download by themselves.</p></div></div>
     </div>
   </div>
 </section>
 
-<section id="specs" class="alt">
+<section id="specs">
   <div class="wrap">
-    <div class="head"><div class="eyebrow">Measurements and specs</div><h2>What is set in the code, and what is tested</h2><p class="lead">Every value below comes from the kit's code. Nothing is presented as a performance result.</p></div>
+    <div class="head"><div class="eyebrow">Measurements and specs</div><h2>What is set in the code, and what is tested</h2><p class="lead">Every value below comes from the connector's code or from a check made today. Nothing is presented as a performance result.</p></div>
     <div class="measure">
       <div class="tbl"><table class="specs">
         <thead><tr><th>Item</th><th>Value</th><th>Source</th></tr></thead>
         <tbody>
-          <tr><td>Places active at the same time</td><td>3 (MAX_LOCATIONS)</td><td><span class="badge s">IN CODE</span></td></tr>
-          <tr><td>Time allowed for a place to get a verified exit</td><td>120 s</td><td><span class="badge s">IN CODE</span></td></tr>
+          <tr><td>Tor exit relays found in California</td><td>12</td><td><span class="badge s">CHECKED 24 NOV</span></td></tr>
+          <tr><td>Countries with running Tor exits</td><td>53</td><td><span class="badge s">CHECKED 24 NOV</span></td></tr>
+          <tr><td>Places active at the same time</td><td>3</td><td><span class="badge s">IN CODE</span></td></tr>
+          <tr><td>Time allowed to build a route</td><td>90 s</td><td><span class="badge s">IN CODE</span></td></tr>
           <tr><td>Attempts when the exit is in the wrong place</td><td>3</td><td><span class="badge s">IN CODE</span></td></tr>
           <tr><td>Geolocation services used for the check</td><td>2</td><td><span class="badge s">IN CODE</span></td></tr>
-          <tr><td>Page navigation timeout</td><td>30 s</td><td><span class="badge s">IN CODE</span></td></tr>
-          <tr><td>Browser engine</td><td>Playwright 1.52.0, Chromium</td><td><span class="badge s">IN CODE</span></td></tr>
-          <tr><td>Time to activate a place on a real server</td><td>—</td><td><span class="badge n">NOT MEASURED</span></td></tr>
-          <tr><td>DNS leak test</td><td>—</td><td><span class="badge n">NOT MEASURED</span></td></tr>
+          <tr><td>Time to activate a place on your computer</td><td>—</td><td><span class="badge n">NOT MEASURED</span></td></tr>
         </tbody></table></div>
-      <div class="box"><h3>Tests</h3><p style="color:var(--mute)"><b style="color:var(--paper)">15 of 15</b> automatic tests pass: understanding places in plain words, the exit check, retries when the exit is elsewhere, and the limit on active places. They run without Docker or network.</p><p style="color:var(--mute)">The full chain with a real VPN provider has not been timed yet, so no speed is published.</p><p class="note" style="margin:0">Run on 24 November 2026.</p></div>
+      <div class="box"><h3>Tests</h3><p style="color:var(--mute)"><b style="color:var(--paper)">15 of 15</b> automatic tests pass: places in plain words, Tor exit selection, exit policies, the Tor configuration, the exit check, retries with other exits, and blocked addresses.</p><p style="color:var(--mute)">The exit list was checked live against the Tor Project's relay list. The full route on a user's computer has not been timed yet.</p><p class="note" style="margin:0">Run on 24 November 2026.</p></div>
     </div>
   </div>
 </section>
 
-<section id="limits">
+<section id="limits" class="alt">
   <div class="wrap">
-    <div class="head"><div class="eyebrow">Limits</div><h2>It is a starter kit</h2></div>
+    <div class="head"><div class="eyebrow">Limits</div><h2>Good to know</h2></div>
     <div class="lims">
-      <div class="lim"><h3>One browser per place</h3><p>Up to three places at a time by default.</p></div>
+      <div class="lim"><h3>Where Tor has exits</h3><p>Many countries and US states have Tor exits; a few places have none at a given moment.</p></div>
+      <div class="lim"><h3>Some sites check Tor visitors</h3><p>A few websites ask Tor visitors for an extra check, or block them.</p></div>
       <div class="lim"><h3>Title and address only</h3><p><code>browser_open</code> does not return page contents or screenshots.</p></div>
       <div class="lim"><h3>Geolocation is a database</h3><p>The place check is as good as the geolocation services behind it.</p></div>
-      <div class="lim"><h3>Your provider sets the map</h3><p>A place works only if your VPN provider has servers there.</p></div>
-      <div class="lim"><h3>Not an anonymity proof</h3><p>The status shows where the exit is. It does not prove anonymity.</p></div>
-      <div class="lim"><h3>Names and redirects</h3><p>Private destinations are blocked by IP address. Host names that resolve to private addresses, and redirects, are not checked yet.</p></div>
+      <div class="lim"><h3>Up to three places</h3><p>One route and one browser per place, three places at a time.</p></div>
+      <div class="lim"><h3>Names and redirects</h3><p>Private destinations are blocked by IP address; host names that resolve to private addresses are left to Tor's own exit rules.</p></div>
     </div>
-    <div class="before"><b>Before offering it to other users, add:</b><span>OAuth</span><span>per-user authorisation</span><span>rate limits</span><span>audit logs</span><span>DNS leak tests</span><span>a kill switch</span></div>
     <p class="note" style="margin-top:16px">Do not sign in to personal accounts or enter sensitive credentials in this browser.</p>
   </div>
 </section>
 
-<section id="faq" class="alt">
+<section id="faq">
   <div class="wrap">
     <div class="head"><div class="eyebrow">FAQ</div><h2>Questions</h2></div>
     <div class="faq">
-      <details><summary>Do I need to be a programmer?</summary><p>No. Day to day you only write to Claude. The one-time setup is a single installer that asks plain questions; whoever hosts the kit runs it once.</p></details>
-      <details><summary>Which places can I ask for?</summary><p>Any place where your VPN provider has servers. US states, many countries and some cities are known by name, also in Italian and Spanish. Every place is verified by geolocating the exit.</p></details>
-      <details><summary>Which traffic goes through the tunnel?</summary><p>Only the traffic of the browser started for that place. Everything else, Claude included, keeps its usual connection.</p></details>
-      <details><summary>Does Claude see the page content?</summary><p>Not in this version. Claude receives the final address, the page title and the HTTP status.</p></details>
-      <details><summary>Is it free?</summary><p>The software is free and open source. A server and a VPN subscription may cost money.</p></details>
-      <details><summary>Is this made by Anthropic?</summary><p>No. Claude VPN MCP is an independent project by MoniliAI. It connects to Claude as a custom MCP connector.</p></details>
+      <details><summary>Do I need to install a VPN?</summary><p>No. The connector uses Tor, which comes inside it. No VPN app, no account, no subscription.</p></details>
+      <details><summary>Does it cost anything?</summary><p>No. Tor is free and run by the non-profit Tor Project and volunteers, and the connector is free.</p></details>
+      <details><summary>Why does changing place take a few seconds?</summary><p>Because it builds a new private route through three Tor relays in different countries, agreeing a separate key with each one. Then the place stays ready until you turn it off.</p></details>
+      <details><summary>Which traffic goes through Tor?</summary><p>Only the traffic of the browser opened for that place. Everything else, Claude included, keeps its usual connection.</p></details>
+      <details><summary>Which places can I ask for?</summary><p>Any place with Tor exits: many countries and US states, and some cities. Every place is verified by geolocating the exit.</p></details>
+      <details><summary>Is this made by Anthropic or the Tor Project?</summary><p>No. Claude VPN MCP is an independent project by MoniliAI. It uses Tor and connects to Claude as an MCP connector.</p></details>
     </div>
   </div>
 </section>
@@ -210,9 +222,9 @@
   <div class="wrap">
     <div class="cta-box">
       <div class="eyebrow">Starter kit</div>
-      <h2>Want the kit, or help setting it up?</h2>
-      <p class="lead">Tell us which places you need, and we will get back to you.</p>
-      <a class="btn pri" href="mailto:scrvlr80@gmail.com?subject=Claude%20VPN%20MCP">Request the kit</a>
+      <h2>Want the connector, or help setting it up?</h2>
+      <p class="lead">It is free. Tell us which places you need, and we will get back to you.</p>
+      <a class="btn pri" href="mailto:scrvlr80@gmail.com?subject=Claude%20VPN%20MCP">Get the connector</a>
       <p class="note" style="margin-top:16px">Write to <a href="mailto:scrvlr80@gmail.com">scrvlr80@gmail.com</a></p>
     </div>
   </div>
@@ -222,11 +234,11 @@
 <footer>
   <div class="wrap">
     <div class="cols">
-      <div><b style="color:var(--paper)">Claude VPN MCP</b><p>An isolated browser for Claude, online through your own WireGuard exit. A <a href="https://monili-vlr.github.io/">MoniliAI</a> product.</p></div>
+      <div><b style="color:var(--paper)">Claude VPN MCP</b><p>An isolated browser for Claude, online from the place you choose, for free, through Tor. A <a href="https://monili-vlr.github.io/">MoniliAI</a> product.</p></div>
       <div><h4>Product</h4><ul><li><a href="#video">Video</a></li><li><a href="#tools">Tools</a></li><li><a href="#setup">Setup</a></li><li><a href="#specs">Specs</a></li><li><a href="#limits">Limits</a></li></ul></div>
       <div><h4>Legal</h4><ul><li><a href="privacy.html">Privacy</a></li><li><a href="legal.html">Licence and credits</a></li><li><a href="mailto:scrvlr80@gmail.com">Contact</a></li><li><a href="https://monili-vlr.github.io/">All MoniliAI products</a></li></ul></div>
     </div>
-    <div class="base"><span>© 2026 MoniliAI. All rights reserved.</span><span>Claude is a trademark of Anthropic. WireGuard is a registered trademark of Jason A. Donenfeld. This is an independent project.</span></div>
+    <div class="base"><span>© 2026 MoniliAI. All rights reserved.</span><span>Claude is a trademark of Anthropic. Tor is a trademark of The Tor Project, Inc. This is an independent project.</span></div>
   </div>
 </footer>
 
