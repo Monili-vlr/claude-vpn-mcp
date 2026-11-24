@@ -45,7 +45,7 @@
     <div>
       <div class="eyebrow">Open-source MCP starter kit · for Claude</div>
       <h1>Give Claude a browser <span>in another country.</span></h1>
-      <p class="lead">Claude controls a dedicated, isolated Chromium on your server. Its traffic exits through a WireGuard gateway in the country you choose. Claude, Anthropic and your own computer keep their addresses.</p>
+      <p class="lead">Claude controls a dedicated, isolated Chromium on your server. Its traffic exits through a WireGuard gateway in the country you choose, while the rest of your setup keeps its usual connection.</p>
       <div class="cta"><a class="btn pri" href="#video">▶ Watch the video · 2 min</a><a class="btn sec" href="#access">Request the kit</a></div>
     </div>
     <div class="chat" aria-label="Example of a prompt and of the tools Claude calls">
@@ -81,11 +81,11 @@
         <li>Routes that browser's traffic through a WireGuard gateway.</li>
         <li>Lets Claude pick the country, check the exit IP and open public pages.</li>
         <li>Returns the address, the title and the HTTP status of each page.</li></ul></div>
-      <div class="box no"><h3>What it does not change</h3><ul>
-        <li>The IP address of Claude.ai.</li>
-        <li>Anthropic's network.</li>
-        <li>The IP address of your computer or phone.</li>
-        <li>Any traffic outside the managed browser.</li></ul></div>
+      <div class="box"><h3>Built around one browser</h3><ul>
+        <li>The tunnel belongs to that browser alone.</li>
+        <li>Each country gets its own gateway and its own browser.</li>
+        <li>You choose and keep control of every exit server.</li>
+        <li>Claude stays in charge from the chat, through the connector.</li></ul></div>
     </div>
     <div class="uses" style="margin-top:42px">
       <div class="use"><h3>Localisation checks</h3><p>See which language, currency and copy a page shows in each country.</p></div>
@@ -196,7 +196,7 @@ curl http://localhost:8080/health</pre></div></div>
   <div class="wrap">
     <div class="head"><div class="eyebrow">FAQ</div><h2>Questions</h2></div>
     <div class="faq">
-      <details><summary>Does it change Claude's IP address?</summary><p>No. Claude.ai, Anthropic's network and your own device keep their addresses. Only the isolated browser managed by this project goes out through the tunnel.</p></details>
+      <details><summary>Which traffic goes through the tunnel?</summary><p>Only the traffic of the browser managed by the kit. Everything else, Claude included, keeps its usual connection.</p></details>
       <details><summary>Can I choose any country?</summary><p>Only countries where you have a real WireGuard exit server. A country label alone does not create geographic routing.</p></details>
       <details><summary>Does Claude see the page content?</summary><p>Not in this version. Claude receives the final address, the page title and the HTTP status. Reading content and screenshots are not part of the starter kit.</p></details>
       <details><summary>Is it free?</summary><p>The software is free and open source. A VPS, a domain and VPN exit servers may cost money.</p></details>
