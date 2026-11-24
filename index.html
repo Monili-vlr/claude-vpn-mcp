@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Claude VPN MCP · A browser for Claude, in the country you choose</title>
+<meta name="description" content="Claude VPN MCP is an open-source MCP starter kit: Claude controls an isolated remote Chromium browser whose traffic exits through a WireGuard gateway in the country you choose.">
+<meta name="theme-color" content="#071014">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://monili-vlr.github.io/claude-vpn-mcp/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Claude VPN MCP · A browser, wherever you need it">
+<meta property="og:description" content="Open-source MCP starter kit: an isolated remote browser for Claude, online through your own WireGuard exit.">
+<meta property="og:image" content="https://monili-vlr.github.io/claude-vpn-mcp/og.jpg">
+<meta property="og:url" content="https://monili-vlr.github.io/claude-vpn-mcp/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="styles.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Claude VPN MCP","applicationCategory":"DeveloperApplication","operatingSystem":"Linux (Docker Compose)","description":"Open-source MCP starter kit: Claude controls an isolated remote Chromium browser routed through a WireGuard gateway.","author":{"@type":"Organization","name":"MoniliAI","url":"https://monili-vlr.github.io/"}}
+</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <nav class="wrap nav" aria-label="Main">
+    <a class="logo" href="#top" aria-label="Claude VPN MCP, home"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 4 56 13v17c0 15-10 26-24 30C18 56 8 45 8 30V13z" fill="#10303A" stroke="#3FD0B0" stroke-width="3"/><path d="M18 34c6-10 22-10 28 0M24 40c4-5 12-5 16 0" fill="none" stroke="#3FD0B0" stroke-width="3" stroke-linecap="round"/><circle cx="32" cy="45" r="3" fill="#3FD0B0"/></svg>Claude VPN MCP</a>
+    <button class="menu" aria-expanded="false" aria-controls="navlinks">Menu</button>
+    <ul id="navlinks">
+      <li><a href="#video">Video</a></li>
+      <li><a href="#what">What it is</a></li>
+      <li><a href="#how">How it works</a></li>
+      <li><a href="#tools">Tools</a></li>
+      <li><a href="#setup">Setup</a></li>
+      <li><a href="#specs">Specs</a></li>
+      <li><a href="#limits">Limits</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+    <a class="btn pri" href="#access">Request the kit</a>
+  </nav>
+</header>
+
+<main id="main">
+<section class="hero" id="top">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow">Open-source MCP starter kit · for Claude</div>
+      <h1>Give Claude a browser <span>in another country.</span></h1>
+      <p class="lead">Claude controls a dedicated, isolated Chromium on your server. Its traffic exits through a WireGuard gateway in the country you choose. Claude, Anthropic and your own computer keep their addresses.</p>
+      <div class="cta"><a class="btn pri" href="#video">▶ Watch the video · 2 min</a><a class="btn sec" href="#access">Request the kit</a></div>
+    </div>
+    <div class="chat" aria-label="Example of a prompt and of the tools Claude calls">
+      <div class="bar"><span class="you">You write</span><span class="typed" id="typed">Open example.com from Italy and tell me the page title.</span></div>
+      <ol id="calls">
+        <li class="on"><b>✓</b><span>lists the configured countries</span><code>vpn_locations</code></li>
+        <li class="on"><b>✓</b><span>selects the Italian browser</span><code>vpn_connect</code></li>
+        <li class="on"><b>✓</b><span>checks the public exit address</span><code>vpn_status</code></li>
+        <li class="on"><b>✓</b><span>opens the page remotely</span><code>browser_open</code></li>
+      </ol>
+      <div class="out" id="out">{ "url": "https://example.com/", "title": "Example Domain", "http_status": 200 }</div>
+      <p class="note" style="margin:10px 0 0">Example prompt and result.</p>
+    </div>
+  </div>
+</section>
+
+<section id="video" class="alt">
+  <div class="wrap">
+    <div class="head"><div class="eyebrow">Video</div><h2>The kit in two minutes</h2><p class="lead">What it does, what it does not change, how it is built, and how to set it up.</p></div>
+    <div class="player" id="player">
+      <button class="poster" id="poster" aria-label="Play the Claude VPN MCP video with voice"><span class="play"><span class="tt">Claude VPN MCP</span><i>▶</i>Play with voice</span></button>
+    </div>
+    <div class="vmeta"><span>English voice · 2:23</span><span>Space pauses · F full screen · M voice on or off</span><a href="video/claude-vpn-mcp-video.html" target="_blank" rel="noopener">Open in a new tab ↗</a></div>
+  </div>
+</section>
+
+<section id="what">
+  <div class="wrap">
+    <div class="head"><div class="eyebrow">What it is</div><h2>One isolated browser, routed through your tunnel</h2><p class="lead">Some pages change with the country: prices, language, offers, availability. To check them, Claude has to look from there, through a real exit in that country.</p></div>
+    <div class="two">
+      <div class="box yes"><h3>What it does</h3><ul>
+        <li>Runs a dedicated remote Chromium on your Linux server.</li>
+        <li>Routes that browser's traffic through a WireGuard gateway.</li>
+        <li>Lets Claude pick the country, check the exit IP and open public pages.</li>
+        <li>Returns the address, the title and the HTTP status of each page.</li></ul></div>
+      <div class="box no"><h3>What it does not change</h3><ul>
+        <li>The IP address of Claude.ai.</li>
+        <li>Anthropic's network.</li>
+        <li>The IP address of your computer or phone.</li>
+        <li>Any traffic outside the managed browser.</li></ul></div>
+    </div>
+    <div class="uses" style="margin-top:42px">
+      <div class="use"><h3>Localisation checks</h3><p>See which language, currency and copy a page shows in each country.</p></div>
+      <div class="use"><h3>Regional pages</h3><p>Confirm that a regional page or redirect works from where your users are.</p></div>
+      <div class="use"><h3>Availability</h3><p>Check whether a public page answers, and with which status, from a given country.</p></div>
+      <div class="use"><h3>Your own sites</h3><p>Test your own geo rules without leaving the chat.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="how" class="alt">
+  <div class="wrap">
+    <div class="head"><div class="eyebrow">How it works</div><h2>Control outside, traffic inside the tunnel</h2><p class="lead">The MCP control plane stays outside the VPN. The browser worker shares the VPN gateway's network namespace, so its outbound traffic uses the tunnel.</p></div>
+    <div class="arch">
+      <div class="node"><b>Claude</b><span>remote MCP connector</span></div>
+      <div class="node"><b>MCP server</b><span>Streamable HTTP, bearer token, behind your HTTPS proxy</span></div>
+      <div class="node ns"><b>Browser worker</b><span>FastAPI + Playwright Chromium</span></div>
+      <div class="node ns"><b>WireGuard gateway</b><span>gluetun, firewall on</span></div>
+      <div class="node"><b>Internet</b><span>exit in the chosen country</span></div>
+    </div>
+    <div class="archnote"><span>shared network namespace: the browser can only go out through the tunnel</span></div>
+  </div>
+</section>
+
+<section id="tools">
+  <div class="wrap">
+    <div class="head"><div class="eyebrow">Tools</div><h2>Five functions Claude can call</h2><p class="lead">You never call them yourself. You write what you need, and Claude chooses.</p></div>
+    <div class="tools">
+      <div class="tool"><code>vpn_locations</code><p>Lists the countries that have a VPN exit and a browser, and the default one.</p><span class="sig">() → locations, default</span></div>
+      <div class="tool"><code>vpn_status</code><p>Checks the remote browser and its public exit IP.</p><span class="sig">(country) → worker, vpn_ip</span></div>
+      <div class="tool"><code>vpn_connect</code><p>Selects the browser routed through that country's gateway, and refuses if no exit IP can be verified.</p><span class="sig">(country) → connected, vpn_ip</span></div>
+      <div class="tool"><code>vpn_disconnect</code><p>Stops the remote browser. The VPN gateway stays on, so no traffic leaks outside the tunnel.</p><span class="sig">(country) → browser stopped</span></div>
+      <div class="tool"><code>browser_open</code><p>Opens a public HTTP or HTTPS address in the remote browser.</p><span class="sig">(url, country) → url, title, http_status</span></div>
+      <div class="tool" style="border-style:dashed"><h3 style="font-size:17px">Safety built in</h3><p>Token on every call, localhost-only MCP port, local and private destinations blocked, page content marked as untrusted.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="safety" class="alt">
+  <div class="wrap">
+    <div class="head"><div class="eyebrow">Safety</div><h2>What the kit already protects</h2></div>
+    <ul class="checks">
+      <li><div><b>Secret bearer token</b><span>Every MCP call and every call to the worker needs it. Only the health check is open.</span></div></li>
+      <li><div><b>Localhost-only MCP port</b><span>Compose binds the MCP service to 127.0.0.1:8080. You publish it through your own HTTPS proxy.</span></div></li>
+      <li><div><b>Only public HTTP and HTTPS</b><span>Other schemes are refused with a 400.</span></div></li>
+      <li><div><b>Local and private IPs blocked</b><span>localhost and private, loopback and reserved IP addresses are refused with a 403.</span></div></li>
+      <li><div><b>Gateway stays on</b><span>Disconnecting stops the browser, never the tunnel, to avoid leaks.</span></div></li>
+      <li><div><b>Untrusted pages</b><span>Pages can contain prompt injection. The kit returns only address, title and status, with a note that content is untrusted.</span></div></li>
+    </ul>
+  </div>
+</section>
+
+<section id="setup">
+  <div class="wrap">
+    <div class="head"><div class="eyebrow">Setup</div><h2>From zero to a connector in Claude</h2><p class="lead">The software is free and open source. The VPS, the domain and the VPN exit servers may cost money.</p></div>
+    <div class="reqs"><span>Linux VPS with Docker Compose v2 and /dev/net/tun</span><span>WireGuard client profile for each country</span><span>Public HTTPS endpoint on port 443</span><span>A provider that allows browser traffic</span></div>
+    <div class="steps">
+      <div class="st"><div><h3>Add your WireGuard profile</h3><p>Copy the example profile to <code>vpn/profiles/it.conf</code> and replace it with the real client configuration of an exit server in Italy.</p></div></div>
+      <div class="st"><div><h3>Set a long random token</h3><pre>cp .env.example .env
+# set MCP_API_TOKEN in .env</pre></div></div>
+      <div class="st"><div><h3>Start the stack</h3><pre>docker compose up -d --build
+curl http://localhost:8080/health</pre></div></div>
+      <div class="st"><div><h3>Connect it in Claude</h3><p>Put the MCP endpoint behind HTTPS, then in Claude open Settings, Connectors, Add custom connector, and enter <code>https://YOUR_DOMAIN/mcp</code> with bearer-token authentication.</p></div></div>
+      <div class="st"><div><h3>Add more countries</h3><p>Duplicate the <code>vpn_it</code> and <code>browser_it</code> services with a new profile, then add the worker to <code>BROWSER_WORKERS</code>. Each country needs a real exit server there.</p><pre>BROWSER_WORKERS={"it":"http://vpn_it:3001","de":"http://vpn_de:3001"}</pre></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="specs" class="alt">
+  <div class="wrap">
+    <div class="head"><div class="eyebrow">Measurements and specs</div><h2>What is set in the code, and what is not measured yet</h2><p class="lead">Every value below comes from the kit's code. Nothing is presented as a performance result.</p></div>
+    <div class="measure">
+      <div class="tbl"><table class="specs">
+        <thead><tr><th>Item</th><th>Value</th><th>Source</th></tr></thead>
+        <tbody>
+          <tr><td>Timeout for a call from the MCP server to the worker</td><td>45 s</td><td><span class="badge s">IN CODE</span></td></tr>
+          <tr><td>Page navigation timeout</td><td>30 s</td><td><span class="badge s">IN CODE</span></td></tr>
+          <tr><td>Exit IP check timeout</td><td>10 s</td><td><span class="badge s">IN CODE</span></td></tr>
+          <tr><td>Browser sessions at a time</td><td>1</td><td><span class="badge s">IN CODE</span></td></tr>
+          <tr><td>Countries configured by default</td><td>1 (it)</td><td><span class="badge s">IN CODE</span></td></tr>
+          <tr><td>Browser engine</td><td>Playwright 1.52.0, Chromium</td><td><span class="badge s">IN CODE</span></td></tr>
+          <tr><td>Runtime</td><td>Python 3.12, Docker Compose v2</td><td><span class="badge s">IN CODE</span></td></tr>
+          <tr><td>Page load time from each country</td><td>—</td><td><span class="badge n">NOT MEASURED</span></td></tr>
+          <tr><td>DNS leak test</td><td>—</td><td><span class="badge n">NOT MEASURED</span></td></tr>
+        </tbody></table></div>
+      <div class="box"><h3>Tests</h3><p style="color:var(--mute)">The starter kit does not include automatic tests yet. It needs a Linux server and a real WireGuard exit to run, so no timing is published until it has been measured on a real setup.</p><p class="note" style="margin:0">Last reviewed: 24 November 2026.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="limits">
+  <div class="wrap">
+    <div class="head"><div class="eyebrow">Limits</div><h2>It is a starter kit</h2><p class="lead">The same limits written in the project README, plus what we noticed while reviewing the code.</p></div>
+    <div class="lims">
+      <div class="lim"><h3>One session</h3><p>One browser session at a time, shared by every call.</p></div>
+      <div class="lim"><h3>One country by default</h3><p>More countries need more services, profiles and real exit servers.</p></div>
+      <div class="lim"><h3>Title and address only</h3><p><code>browser_open</code> does not return page contents or screenshots.</p></div>
+      <div class="lim"><h3>Not an anonymity proof</h3><p><code>vpn_status</code> shows the public exit IP. It does not prove anonymity or protect other traffic.</p></div>
+      <div class="lim"><h3>Your exit, your upkeep</h3><p>You provide and maintain the WireGuard exit server and its profile.</p></div>
+      <div class="lim"><h3>Names and redirects</h3><p>The block on private destinations checks literal IP addresses. Host names that resolve to private addresses, and redirects, are not checked yet.</p></div>
+    </div>
+    <div class="before"><b>Before offering it to other users, add:</b><span>OAuth</span><span>per-user authorisation</span><span>rate limits</span><span>audit logs</span><span>DNS leak tests</span><span>a kill switch</span></div>
+    <p class="note" style="margin-top:16px">Do not sign in to personal accounts or enter sensitive credentials in this browser. Do not use random free VPN endpoints for sensitive browsing.</p>
+  </div>
+</section>
+
+<section id="faq" class="alt">
+  <div class="wrap">
+    <div class="head"><div class="eyebrow">FAQ</div><h2>Questions</h2></div>
+    <div class="faq">
+      <details><summary>Does it change Claude's IP address?</summary><p>No. Claude.ai, Anthropic's network and your own device keep their addresses. Only the isolated browser managed by this project goes out through the tunnel.</p></details>
+      <details><summary>Can I choose any country?</summary><p>Only countries where you have a real WireGuard exit server. A country label alone does not create geographic routing.</p></details>
+      <details><summary>Does Claude see the page content?</summary><p>Not in this version. Claude receives the final address, the page title and the HTTP status. Reading content and screenshots are not part of the starter kit.</p></details>
+      <details><summary>Is it free?</summary><p>The software is free and open source. A VPS, a domain and VPN exit servers may cost money.</p></details>
+      <details><summary>Is it safe to log in to my accounts with it?</summary><p>No. Treat it as an MVP: do not sign in to personal accounts and do not type sensitive credentials in the remote browser.</p></details>
+      <details><summary>Is this made by Anthropic?</summary><p>No. Claude VPN MCP is an independent project by MoniliAI. It connects to Claude as a custom MCP connector.</p></details>
+    </div>
+  </div>
+</section>
+
+<section id="access">
+  <div class="wrap">
+    <div class="cta-box">
+      <div class="eyebrow">Starter kit</div>
+      <h2>Want the kit, or help setting it up?</h2>
+      <p class="lead">Tell us what you want to check and from which countries, and we will get back to you.</p>
+      <a class="btn pri" href="mailto:scrvlr80@gmail.com?subject=Claude%20VPN%20MCP">Request the kit</a>
+      <p class="note" style="margin-top:16px">Write to <a href="mailto:scrvlr80@gmail.com">scrvlr80@gmail.com</a></p>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="cols">
+      <div><b style="color:var(--paper)">Claude VPN MCP</b><p>An isolated browser for Claude, online through your own WireGuard exit. A <a href="https://monili-vlr.github.io/">MoniliAI</a> product.</p></div>
+      <div><h4>Product</h4><ul><li><a href="#video">Video</a></li><li><a href="#tools">Tools</a></li><li><a href="#setup">Setup</a></li><li><a href="#specs">Specs</a></li><li><a href="#limits">Limits</a></li></ul></div>
+      <div><h4>Legal</h4><ul><li><a href="privacy.html">Privacy</a></li><li><a href="legal.html">Licence and credits</a></li><li><a href="mailto:scrvlr80@gmail.com">Contact</a></li><li><a href="https://monili-vlr.github.io/">All MoniliAI products</a></li></ul></div>
+    </div>
+    <div class="base"><span>© 2026 MoniliAI. All rights reserved.</span><span>Claude is a trademark of Anthropic. WireGuard is a registered trademark of Jason A. Donenfeld. This is an independent project.</span></div>
+  </div>
+</footer>
+
+<script>
+(() => {
+  const menu = document.querySelector('.menu'), links = document.getElementById('navlinks');
+  menu.addEventListener('click', () => { const o = links.classList.toggle('open'); menu.setAttribute('aria-expanded', o); });
+  links.addEventListener('click', e => { if (e.target.tagName === 'A') { links.classList.remove('open'); menu.setAttribute('aria-expanded', false); } });
+  document.getElementById('poster').addEventListener('click', () => {
+    const f = document.createElement('iframe');
+    f.src = 'video/claude-vpn-mcp-video.html?autoplay=1'; f.title = 'Claude VPN MCP video'; f.allow = 'autoplay; fullscreen'; f.allowFullScreen = true;
+    document.getElementById('player').replaceChildren(f);
+    f.addEventListener('load', () => { try { f.contentWindow.focus(); } catch (e) { /* cross-origin */ } });
+  });
+  // hero: replay the example calls, one by one (static and complete without motion)
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const li = [...document.querySelectorAll('#calls li')], out = document.getElementById('out'), full = out.textContent;
+    const run = async () => {
+      for (;;) {
+        li.forEach(e => { e.classList.remove('on'); e.querySelector('b').textContent = '○'; }); out.textContent = '';
+        await new Promise(r => setTimeout(r, 900));
+        for (const e of li) { e.classList.add('on'); e.querySelector('b').textContent = '◐'; await new Promise(r => setTimeout(r, 750)); e.querySelector('b').textContent = '✓'; }
+        out.textContent = full; await new Promise(r => setTimeout(r, 4200));
+      }
+    };
+    run();
+  }
+})();
+</script>
+</body>
+</html>
