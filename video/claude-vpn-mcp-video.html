@@ -97,10 +97,21 @@ const typed = (txt, lt, t0, cps = 30) => txt.slice(0, Math.max(0, Math.floor((lt
 const LOGO = (s = 64) => `<svg viewBox="0 0 64 64" width="${s}" height="${s}" aria-hidden="true"><path d="M32 4 56 13v17c0 15-10 26-24 30C18 56 8 45 8 30V13z" fill="#10303A" stroke="#3FD0B0" stroke-width="3"/><path d="M18 34c6-10 22-10 28 0" fill="none" stroke="#3FD0B0" stroke-width="3" stroke-linecap="round"/><path d="M24 40c4-5 12-5 16 0" fill="none" stroke="#3FD0B0" stroke-width="3" stroke-linecap="round"/><circle cx="32" cy="45" r="3" fill="#3FD0B0"/></svg>`;
 const AI = `<svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1v4M8 11v4M1 8h4M11 8h4M3 3l2.5 2.5M10.5 10.5 13 13M13 3l-2.5 2.5M5.5 10.5 3 13" stroke="#3FD0B0" stroke-width="1.6" stroke-linecap="round"/></svg>`;
 const SC = [];
-const shop = (cty, lang, price, ship, hl) => `<div class="tb"><i></i><i></i><i></i><span class="url">https://shop.example/item</span></div>
+/* Product picture for the example shop: headphones on a soft stage, with a country banner. */
+const PRODUCT = (banner, hl) => `<svg viewBox="0 0 400 150" width="100%" height="150" style="display:block;border-radius:8px">
+  <defs><linearGradient id="pg${hl ? 1 : 0}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${hl ? '#1d4a48' : '#1f3540'}"/><stop offset="1" stop-color="#0f2228"/></linearGradient></defs>
+  <rect width="400" height="150" fill="url(#pg${hl ? 1 : 0})"/>
+  <ellipse cx="200" cy="132" rx="96" ry="9" fill="#000" opacity=".35"/>
+  <path d="M138 104 C138 40 262 40 262 104" fill="none" stroke="#E8F3F1" stroke-width="11" stroke-linecap="round"/>
+  <path d="M144 100 C146 52 254 52 256 100" fill="none" stroke="#93ADA9" stroke-width="3" opacity=".6"/>
+  <rect x="118" y="88" width="38" height="50" rx="14" fill="#E8F3F1"/><rect x="126" y="96" width="22" height="34" rx="9" fill="${hl ? '#3FD0B0' : '#7CB4FF'}"/>
+  <rect x="244" y="88" width="38" height="50" rx="14" fill="#E8F3F1"/><rect x="252" y="96" width="22" height="34" rx="9" fill="${hl ? '#3FD0B0' : '#7CB4FF'}"/>
+  <g transform="translate(300 16)"><rect width="88" height="28" rx="6" fill="${hl ? '#3FD0B0' : '#F2B84B'}"/><text x="44" y="19" text-anchor="middle" font-family="Segoe UI,Arial" font-size="13" font-weight="800" fill="#062019">${banner}</text></g>
+  <g fill="#E8F3F1" opacity=".5"><circle cx="40" cy="30" r="2"/><circle cx="66" cy="112" r="1.6"/><circle cx="352" cy="118" r="2"/></g></svg>`;
+const shop = (cty, lang, price, ship, hl, banner = '') => `<div class="tb"><i></i><i></i><i></i><span class="url">https://shop.example/item</span></div>
   <div style="padding:18px 20px;display:flex;flex-direction:column;gap:12px">
     <div style="display:flex;justify-content:space-between"><b style="font:700 18px var(--ui)">Example shop</b><span class="chip ${hl ? 'on' : ''}">seen from ${cty}</span></div>
-    <div style="height:150px;border-radius:8px;background:linear-gradient(135deg,#1c3a44,#0f2228)"></div>
+    ${PRODUCT(banner, hl)}
     <div style="font:700 26px var(--ui)">${price}</div><div class="cap">${ship}</div><div class="mono" style="font-size:13px;color:var(--mute)">lang: ${lang}</div></div>`;
 
 /* Prompt bar used by every scene: everything starts from what the user writes. */
@@ -140,26 +151,32 @@ SC.push({ title: 'Claude VPN MCP', dur: 10, ex: false, build(r) {
   const t = A(r, '', 86, 270, 640, 90, '<div style="font:800 66px var(--ui);letter-spacing:2px">Claude VPN MCP</div>');
   const s1 = A(r, '', 90, 362, 560, 90, '<div style="font:700 30px/1.3 var(--ui)">Write where you want to be.<br><span style="color:var(--acc)">Claude does the rest.</span></div>');
   const by = A(r, '', 90, 470, 400, 30, '<div class="cap">by MoniliAI</div>');
-  const chat = A(r, 'win', 700, 150, 520, 330, `<div class="tb"><span>Claude</span></div>
+  const chat = A(r, 'win', 700, 140, 520, 350, `<div class="tb"><span>Claude</span></div>
     <div style="padding:18px;display:flex;flex-direction:column;gap:14px">
       <div style="align-self:flex-end;max-width:380px;background:#24444E;border-radius:14px 14px 3px 14px;padding:11px 14px;font:17px/1.4 var(--ui)"><span class="ty"></span></div>
       <div class="cl mono" style="font-size:13px;color:var(--acc);opacity:0">vpn_activate("California") ✓ exit verified</div>
       <div class="an" style="max-width:440px;background:#10232A;border:1px solid var(--ink3);border-radius:14px 14px 14px 3px;padding:12px 14px;font:16px/1.45 var(--ui);opacity:0">Done. Your browser now goes online from <b style="color:var(--acc)">San Jose, California</b>. What should I open?</div>
-      <div class="cap" style="font-size:12.5px;margin-top:auto">Example conversation</div></div>`);
-  return { logo, chip, t, s1, by, chat, ty: chat.querySelector('.ty'), an: chat.querySelector('.an'), cl: chat.querySelector('.cl') };
+      <div class="stt" style="display:flex;gap:8px;flex-wrap:wrap;opacity:0"><span class="chip on">exit · San Jose, CA</span><span class="chip">203.0.113.24</span><span class="chip">verified twice</span></div>
+      <div class="cap" style="font-size:12.5px">Example conversation</div></div>`);
+  return { logo, chip, t, s1, by, chat, ty: chat.querySelector('.ty'), an: chat.querySelector('.an'), cl: chat.querySelector('.cl'), stt: chat.querySelector('.stt') };
 }, update(c, lt) {
   fadeUp(c.logo, es(lt, 0, .8)); fadeUp(c.chip, es(lt, .3, 1)); c.t.style.clipPath = `inset(0 ${100 - 100 * es(lt, .5, 1.7)}% 0 0)`;
   fadeUp(c.s1, es(lt, 1.6, 2.4)); fadeUp(c.by, es(lt, 2.6, 3.2)); fadeUp(c.chat, es(lt, .8, 1.6));
   c.ty.textContent = typed('Activate my location in California.', lt, 1.8, 24);
-  op(c.cl, es(lt, 3.8, 4.3)); fadeUp(c.an, es(lt, 5, 5.7));
+  op(c.cl, es(lt, 3.8, 4.3)); fadeUp(c.an, es(lt, 5, 5.7)); fadeUp(c.stt, es(lt, 6, 6.6));
 } });
 
 /* 2. The need */
 SC.push({ title: 'See a page as people there see it', dur: 12, ex: true, build(r) {
   const b = promptBar(r);
-  const a = A(r, 'win', 60, 130, 440, 390, shop('Spain', 'es', '€ 24,90', 'Envío gratis en 48 h', false));
-  const w = A(r, 'win', 530, 130, 440, 390, shop('Italy', 'it', '€ 22,50', 'Spedizione gratuita in 72 h', true));
-  const q = A(r, 'card', 1000, 150, 230, 280, `<div style="display:flex;gap:8px;align-items:center">${AI}<b>Claude</b></div><p class="cap" style="font-size:15px;margin:10px 0 0">Prices, language and offers can change with the country.</p><p class="cap" style="font-size:15px;margin:10px 0 0">To see them, Claude looks <b style="color:var(--paper)">from there</b>.</p>`);
+  const a = A(r, 'win', 60, 130, 440, 390, shop('Spain', 'es', '€ 24,90', 'Envío gratis en 48 h', false, 'NOVEDAD'));
+  const w = A(r, 'win', 530, 130, 440, 390, shop('Italy', 'it', '€ 22,50', 'Spedizione gratuita in 72 h', true, 'SALDI'));
+  const q = A(r, 'card', 1000, 150, 230, 280, `<div style="display:flex;gap:8px;align-items:center">${AI}<b>Claude</b></div><p class="cap" style="font-size:15px;margin:10px 0 0">Prices, language and offers can change with the country.</p><p class="cap" style="font-size:15px;margin:10px 0 0">To see them, Claude looks <b style="color:var(--paper)">from there</b>.</p>
+    <svg viewBox="0 0 200 92" width="198" height="92" style="margin-top:12px"><g font-family="Segoe UI,Arial" font-size="12" font-weight="700">
+      <path d="M30 70 C70 70 70 22 100 22 C130 22 130 70 170 70" fill="none" stroke="#3FD0B0" stroke-width="2" stroke-dasharray="5 5"/>
+      <circle cx="30" cy="70" r="7" fill="#F2B84B"/><text x="30" y="90" text-anchor="middle" fill="#93ADA9">ES</text>
+      <rect x="72" y="8" width="56" height="26" rx="7" fill="#163038" stroke="#3FD0B0"/><text x="100" y="26" text-anchor="middle" fill="#E8F3F1">Claude</text>
+      <circle cx="170" cy="70" r="7" fill="#3FD0B0"/><text x="170" y="90" text-anchor="middle" fill="#E8F3F1">IT</text></g></svg>`);
   const cap = A(r, '', 60, 548, 1160, 60, '<div class="cap">Example pages. Useful for localisation, regional pages and what customers in each country really see.</div>');
   return { b, a, w, q, cap };
 }, update(c, lt) { typePrompts(c.b, lt, [[.3, 'Show me this shop page as people in Italy see it.']]); fadeUp(c.a, es(lt, 2.2, 3)); fadeUp(c.w, es(lt, 3.2, 4)); fadeUp(c.q, es(lt, 4.6, 5.4)); fadeUp(c.cap, es(lt, 6, 6.8)); } });
@@ -174,8 +191,9 @@ SC.push({ title: 'Activate a place with a prompt', dur: 18, ex: true, build(r) {
     <g class="pin" opacity="0"><circle cx="105" cy="200" r="22" fill="#3FD0B0" fill-opacity=".2"/><circle cx="105" cy="200" r="9" fill="#3FD0B0"/>
     <text x="128" y="190" fill="#E8F3F1" font-family="Segoe UI" font-size="18" font-weight="700">San Jose, California</text>
     <text x="128" y="212" fill="#93ADA9" font-family="Consolas" font-size="14">exit 203.0.113.24</text></g></svg>`);
-  const p = aiPanel(r, 710, 128, 530, 300, [[2.6, 'understands the place', 'vpn_activate(place="California")'], [4.8, 'starts a gateway and a browser for California', ''], [8.4, 'checks where the exit really is', 'geolocation of the exit IP'], [11.6, 'confirms and makes it the current place', '']]);
-  const res = A(r, 'card', 710, 440, 530, 148, `<div class="lbl" style="margin-bottom:6px">Claude answers</div><div style="font:17px/1.45 var(--ui)">Your location is active in <b style="color:var(--acc)">San Jose, California</b>. Exit IP verified. What would you like to open?</div>`);
+  const p = aiPanel(r, 710, 128, 530, 236, [[2.6, 'understands the place', 'vpn_activate(place="California")'], [4.8, 'starts a gateway and a browser for California', ''], [8.4, 'checks where the exit really is', 'geolocation of the exit IP'], [11.6, 'confirms and makes it the current place', '']]);
+  const res = A(r, 'card', 710, 378, 530, 210, `<div class="lbl" style="margin-bottom:6px">Claude answers</div><div style="font:17px/1.45 var(--ui)">Your location is active in <b style="color:var(--acc)">San Jose, California</b>. Exit IP verified. What would you like to open?</div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:14px"><span class="chip">city · San Jose</span><span class="chip">region · California</span><span class="chip">country · US</span><span class="chip on">2 of 2 agree</span></div>`);
   const cx = cotLine(r);
   return { b, map, st: map.querySelector('.st'), pin: map.querySelector('.pin'), p, res, cx };
 }, update(c, lt) {
@@ -193,10 +211,13 @@ SC.push({ title: 'Open pages from there', dur: 16, ex: true, build(r) {
     <div style="position:relative;height:362px;padding:22px">
       <div class="ld mono" style="color:var(--mute);font-size:14px"></div>
       <div class="ct" style="opacity:0"><div style="font:800 34px var(--ui);margin-bottom:10px">Example Domain</div><div class="cap">This domain is for use in documentation examples.</div>
-        <div style="margin-top:20px;height:110px;border-radius:8px;background:linear-gradient(135deg,#183840,#0f2228)"></div></div>
+        <div style="display:grid;grid-template-columns:1fr 150px;gap:18px;margin-top:18px;align-items:center">
+          <div style="display:flex;flex-direction:column;gap:9px"><i style="height:9px;border-radius:5px;background:#24444E;width:96%"></i><i style="height:9px;border-radius:5px;background:#24444E;width:88%"></i><i style="height:9px;border-radius:5px;background:#24444E;width:70%"></i><span style="color:var(--blue);font-size:15px;margin-top:6px;text-decoration:underline">More information...</span></div>
+          <svg viewBox="0 0 150 120" width="150" height="120"><circle cx="75" cy="60" r="48" fill="#163038" stroke="#3FD0B0" stroke-width="2"/><ellipse cx="75" cy="60" rx="20" ry="48" fill="none" stroke="#3FD0B0" stroke-opacity=".6"/><path d="M27 60h96M33 38h84M33 82h84" stroke="#3FD0B0" stroke-opacity=".6"/><circle cx="52" cy="50" r="7" fill="#F2B84B"/><circle cx="52" cy="50" r="15" fill="#F2B84B" fill-opacity=".2"/></svg></div>
+        <div style="display:flex;gap:8px;margin-top:22px;flex-wrap:wrap"><span class="chip">HTTP 200</span><span class="chip">title · Example Domain</span><span class="chip">untrusted content</span></div></div>
       <span class="chip on" style="position:absolute;right:14px;bottom:14px">from San Jose, California</span></div>`);
-  const p = aiPanel(r, 730, 128, 510, 200, [[2.4, 'opens the page in the remote browser', 'browser_open(url)'], [7, 'reads the answer', '']]);
-  const res = A(r, 'card', 730, 344, 510, 184, `<div class="lbl" style="margin-bottom:6px">Claude answers</div><div style="font:17px/1.45 var(--ui)">From California, the page title is <b style="color:var(--acc)">Example Domain</b>, status 200.</div><div class="cap" style="font-size:13.5px;margin-top:10px">Pages are treated as untrusted content.</div>`);
+  const p = aiPanel(r, 730, 128, 510, 220, [[2.4, 'checks it is a public web address', 'http or https, no local or private IP'], [3.6, 'opens the page in the remote browser', 'browser_open(url)'], [7, 'reads the title and the status', '']]);
+  const res = A(r, 'card', 730, 364, 510, 164, `<div class="lbl" style="margin-bottom:6px">Claude answers</div><div style="font:17px/1.45 var(--ui)">From California, the page title is <b style="color:var(--acc)">Example Domain</b>, status 200.</div><div class="cap" style="font-size:13.5px;margin-top:10px">Pages are treated as untrusted content.</div>`);
   const cx = cotLine(r);
   return { b, w, url: w.querySelector('.url'), ld: w.querySelector('.ld'), ct: w.querySelector('.ct'), p, res, cx };
 }, update(c, lt) {
@@ -239,8 +260,15 @@ SC.push({ title: 'How it works', dur: 15, ex: false, build(r) {
 SC.push({ title: 'Five tools, chosen by Claude', dur: 13, ex: false, build(r) {
   const b = promptBar(r);
   const T = [['vpn_activate', '"Activate my location in California"', 'Starts a place and verifies the exit really is there.'], ['vpn_locations', '"Which places can I use?"', 'Places active now and examples you can ask for.'], ['vpn_status', '"Where am I browsing from?"', 'Exit IP and its real city, region and country.'], ['vpn_deactivate', '"Turn off California"', 'Removes the browser first, then its gateway.'], ['browser_open', '"Open this page"', 'Opens a public page from the current place.']];
-  const cs = T.map(([n, q, d], i) => A(r, 'card', 40 + (i % 3) * 405, i < 3 ? 140 : 330, 385, 165, `<div class="mono" style="font:700 19px var(--mono);color:var(--acc)">${n}</div><div style="font:600 16px var(--ui);margin:10px 0 6px">${q}</div><p class="cap" style="margin:0;font-size:15px">${d}</p>`));
-  const cap = A(r, '', 850, 360, 380, 150, '<div style="font:700 26px/1.3 var(--ui)">You never call them.</div><div class="cap" style="margin-top:8px">You write, Claude picks the right one.</div>');
+  const ICO = {
+    vpn_activate: '<path d="M14 3v8M8 6a8 8 0 1 0 12 0" fill="none" stroke="#3FD0B0" stroke-width="2.4" stroke-linecap="round"/>',
+    vpn_locations: '<path d="M14 25s8-7 8-13a8 8 0 0 0-16 0c0 6 8 13 8 13z" fill="none" stroke="#3FD0B0" stroke-width="2.2"/><circle cx="14" cy="12" r="3" fill="#3FD0B0"/>',
+    vpn_status: '<circle cx="14" cy="14" r="10" fill="none" stroke="#3FD0B0" stroke-width="2.2"/><path d="M4 14h20M14 4c4 4 4 16 0 20M14 4c-4 4-4 16 0 20" fill="none" stroke="#3FD0B0" stroke-width="1.6"/>',
+    vpn_deactivate: '<rect x="5" y="9" width="18" height="10" rx="5" fill="none" stroke="#3FD0B0" stroke-width="2.2"/><circle cx="10" cy="14" r="3" fill="#3FD0B0"/>',
+    browser_open: '<rect x="3" y="5" width="22" height="18" rx="3" fill="none" stroke="#3FD0B0" stroke-width="2.2"/><path d="M3 10h22" stroke="#3FD0B0" stroke-width="2"/><circle cx="7" cy="7.5" r="1" fill="#3FD0B0"/>'
+  };
+  const cs = T.map(([n, q, d], i) => A(r, 'card', 40 + (i % 3) * 405, i < 3 ? 150 : 340, 385, 165, `<div style="display:flex;justify-content:space-between;align-items:center"><span class="mono" style="font:700 19px var(--mono);color:var(--acc)">${n}</span><svg viewBox="0 0 28 28" width="30" height="30">${ICO[n]}</svg></div><div style="font:600 16px var(--ui);margin:10px 0 6px">${q}</div><p class="cap" style="margin:0;font-size:15px">${d}</p>`));
+  const cap = A(r, 'card', 850, 340, 385, 165, '<div style="font:700 24px/1.3 var(--ui)">You never call them.</div><div class="cap" style="margin-top:6px">You write, Claude picks the right one.</div><div style="display:flex;align-items:center;gap:8px;margin-top:14px;font:13px var(--mono)"><span class="chip" style="font-family:var(--ui)">“Move me to Tokyo”</span><span style="color:var(--acc)">→</span><span class="chip on">vpn_activate</span></div>');
   return { b, cs, cap };
 }, update(c, lt) { typePrompts(c.b, lt, [[.3, 'What can you do with this connector?']]); c.cs.forEach((e, i) => fadeUp(e, es(lt, 2 + i * .7, 2.8 + i * .7))); fadeUp(c.cap, es(lt, 6.4, 7.2)); } });
 
@@ -248,31 +276,41 @@ SC.push({ title: 'Five tools, chosen by Claude', dur: 13, ex: false, build(r) {
 SC.push({ title: 'Safety built in', dur: 15, ex: true, build(r) {
   const b = promptBar(r);
   const chk = ['A secret token protects the server', 'The server listens on localhost, behind HTTPS', 'Only public web addresses open', 'Local and private addresses are blocked', 'Every page is treated as untrusted', 'Docker is reached through a restricted proxy'];
-  const L = A(r, 'card', 40, 128, 560, 460, `<div class="lbl" style="margin-bottom:10px">Built into the kit</div>` + chk.map(t => `<div class="ck" style="display:grid;grid-template-columns:26px 1fr;gap:8px;margin:14px 0;font:18px/1.35 var(--ui)"><span class="ok" style="font-weight:700">✓</span><span>${t}</span></div>`).join(''));
-  const rows = [['http://localhost:3001/status', '403', 'local destination blocked', 0], ['http://192.168.1.1/', '403', 'private IP blocked', 0], ['https://example.org/', '200', 'opened', 1]];
-  const R = A(r, 'card', 630, 128, 610, 290, `<div class="lbl" style="margin-bottom:10px">browser_open · requests</div>` + rows.map(([u, s, t, ok]) => `<div class="rq" style="display:grid;grid-template-columns:1fr 56px;gap:10px;align-items:center;padding:10px 0;border-top:1px solid var(--ink3)"><div><div class="mono" style="font-size:14px">${u}</div><div class="cap" style="font-size:13.5px">${t}</div></div><span class="chip" style="justify-content:center;${ok ? 'border-color:var(--acc);color:var(--acc)' : 'border-color:var(--red);color:var(--red)'}">${s}</span></div>`).join(''));
-  const n = A(r, 'card', 630, 436, 610, 152, '<b>Claude answers</b><p class="cap" style="margin:6px 0 0;font-size:15.5px">Local and private addresses are blocked, and I only read the title, the address and the status of each page.</p>');
+  const L = A(r, 'card', 40, 128, 560, 300, `<div class="lbl" style="margin-bottom:10px">Built into the kit</div>` + chk.map(t => `<div class="ck" style="display:grid;grid-template-columns:26px 1fr;gap:8px;margin:8px 0;font:17px/1.35 var(--ui)"><span class="ok" style="font-weight:700">✓</span><span>${t}</span></div>`).join(''));
+  const rows = [['http://localhost:3001/status', '403', 'local destination blocked', 0], ['http://192.168.1.1/', '403', 'private IP blocked', 0], ['ftp://files.example/', '400', 'only HTTP and HTTPS', 0], ['https://example.org/', '200', 'opened', 1]];
+  const R = A(r, 'card', 630, 128, 610, 300, `<div class="lbl" style="margin-bottom:10px">browser_open · requests</div>` + rows.map(([u, s, t, ok]) => `<div class="rq" style="display:grid;grid-template-columns:1fr 56px;gap:10px;align-items:center;padding:10px 0;border-top:1px solid var(--ink3)"><div><div class="mono" style="font-size:14px">${u}</div><div class="cap" style="font-size:13.5px">${t}</div></div><span class="chip" style="justify-content:center;${ok ? 'border-color:var(--acc);color:var(--acc)' : 'border-color:var(--red);color:var(--red)'}">${s}</span></div>`).join(''));
+  const n = A(r, 'card', 40, 446, 1200, 150, `<div style="display:grid;grid-template-columns:1.25fr 1fr;gap:26px;align-items:center;height:100%">
+    <svg viewBox="0 0 640 110" width="640" height="110"><g font-family="Segoe UI,Arial" font-size="14" fill="#E8F3F1">
+      <rect x="0" y="34" width="110" height="44" rx="10" fill="#163038" stroke="#24444E"/><text x="55" y="61" text-anchor="middle" font-weight="700">Claude</text>
+      <path d="M110 56h50" stroke="#3FD0B0" stroke-width="2"/><g transform="translate(160 26)"><path d="M30 0 58 10v16c0 18-12 30-28 36C14 56 2 44 2 26V10z" fill="#0E2A2A" stroke="#3FD0B0" stroke-width="2"/><text x="30" y="38" text-anchor="middle" font-size="12" font-weight="700" fill="#3FD0B0">token</text></g>
+      <path d="M220 56h50" stroke="#3FD0B0" stroke-width="2"/><rect x="270" y="34" width="130" height="44" rx="10" fill="#163038" stroke="#24444E"/><text x="335" y="61" text-anchor="middle" font-weight="700">MCP server</text>
+      <path d="M400 56h50" stroke="#3FD0B0" stroke-width="2"/><g transform="translate(450 26)"><path d="M30 0 58 10v16c0 18-12 30-28 36C14 56 2 44 2 26V10z" fill="#0E2A2A" stroke="#3FD0B0" stroke-width="2"/><text x="30" y="38" text-anchor="middle" font-size="12" font-weight="700" fill="#3FD0B0">public</text></g>
+      <path d="M510 56h30" stroke="#3FD0B0" stroke-width="2"/><rect x="540" y="34" width="100" height="44" rx="10" fill="#163038" stroke="#3FD0B0"/><text x="590" y="61" text-anchor="middle" font-weight="700">Browser</text></g></svg>
+    <div><b>Claude answers</b><p class="cap" style="margin:6px 0 0;font-size:15.5px">Local and private addresses are blocked, and I only read the title, the address and the status of each page.</p></div></div>`);
   return { b, L, ck: [...L.querySelectorAll('.ck')], R, rq: [...R.querySelectorAll('.rq')], n };
 }, update(c, lt) {
   typePrompts(c.b, lt, [[.3, 'Is it safe to open any link?']]);
   op(c.L, es(lt, 1.6, 2.2)); c.ck.forEach((e, i) => fadeUp(e, es(lt, 2 + i * .6, 2.6 + i * .6)));
-  fadeUp(c.R, es(lt, 5.6, 6.4), 0); c.rq.forEach((e, i) => fadeUp(e, es(lt, 6.4 + i * 1.1, 7 + i * 1.1))); fadeUp(c.n, es(lt, 10, 10.8));
+  fadeUp(c.R, es(lt, 5.6, 6.4), 0); c.rq.forEach((e, i) => fadeUp(e, es(lt, 6.2 + i * .9, 6.8 + i * .9))); fadeUp(c.n, es(lt, 10, 10.8));
 } });
 
 /* 9. Set up once */
 SC.push({ title: 'Set up once', dur: 14, ex: true, build(r) {
-  const term = A(r, 'win', 40, 90, 640, 470, `<div class="tb"><i></i><i></i><i></i><span style="margin-left:8px">one-time setup, on your server</span></div><div class="code t" style="padding:16px 18px;font-size:15px;height:410px;white-space:pre-wrap"></div>`);
-  const cl = A(r, 'win', 710, 90, 530, 300, `<div class="tb"><span>Claude · Settings · Connectors</span></div>
+  const term = A(r, 'win', 40, 90, 640, 320, `<div class="tb"><i></i><i></i><i></i><span style="margin-left:8px">one-time setup, on your server</span></div><div class="code t" style="padding:16px 18px;font-size:15px;height:260px;white-space:pre-wrap"></div>`);
+  const cl = A(r, 'win', 710, 90, 530, 320, `<div class="tb"><span>Claude · Settings · Connectors</span></div>
     <div style="padding:18px;display:flex;flex-direction:column;gap:12px"><div style="font:700 21px var(--ui)">Add custom connector</div>
       <div class="u mono" style="border:1px solid var(--ink3);border-radius:8px;padding:10px 12px;font-size:15px;min-height:22px"></div>
-      <span class="cn chip" style="align-self:flex-start;font:700 15px var(--ui);padding:7px 16px">Connect</span></div>`);
-  const big = A(r, '', 710, 420, 530, 140, '<div style="font:800 34px/1.2 var(--ui)">From now on,<br><span style="color:var(--acc)">you just write.</span></div>');
-  return { term, t: term.querySelector('.t'), cl, u: cl.querySelector('.u'), cn: cl.querySelector('.cn'), big };
+      <span class="cn chip" style="align-self:flex-start;font:700 15px var(--ui);padding:7px 16px">Connect</span>
+      <div class="ok2" style="display:flex;flex-wrap:wrap;gap:6px;opacity:0"><span class="chip on">Connected</span><span class="chip">vpn_activate</span><span class="chip">vpn_locations</span><span class="chip">vpn_status</span><span class="chip">vpn_deactivate</span><span class="chip">browser_open</span></div></div>`);
+  const big = A(r, 'card', 40, 436, 1200, 150, `<div style="display:grid;grid-template-columns:repeat(3,1fr) 1.3fr;gap:18px;align-items:center;height:100%">
+    ${[['1', 'Run the installer', 'once, on your server'], ['2', 'Add the connector', 'in Claude settings'], ['3', 'Write', '“Activate my location in California”']].map(([n, t, d]) => `<div style="display:flex;gap:12px;align-items:center"><span style="width:40px;height:40px;border-radius:11px;background:#163038;border:1px solid var(--ink3);display:grid;place-items:center;font:700 16px var(--mono);color:var(--acc);flex:none">${n}</span><div><b>${t}</b><div class="cap" style="font-size:14px">${d}</div></div></div>`).join('')}
+    <div style="font:800 30px/1.2 var(--ui)">From now on,<br><span style="color:var(--acc)">you just write.</span></div></div>`);
+  return { term, t: term.querySelector('.t'), cl, u: cl.querySelector('.u'), cn: cl.querySelector('.cn'), ok2: cl.querySelector('.ok2'), big };
 }, update(c, lt) {
   fadeUp(c.term, es(lt, 0, .8));
   const L = [['$ ./install.sh', .6], ['Which VPN provider do you use?', 1.6], ['> mullvad', 2.6], ['Paste the WireGuard key your provider gave you:', 3.4], ['> ••••••••••••••••', 4.6], ['Saved. Building and starting...', 5.4], ['Ready. Add it in Claude as a custom connector.', 6.6]];
   c.t.innerHTML = L.map(([s, t]) => lt < t ? '' : `<div class="${s.startsWith('$') || s.startsWith('>') ? 'ok' : ''}">${esc(typed(s, lt, t, 46))}</div>`).join('');
-  fadeUp(c.cl, es(lt, 7.4, 8.2)); c.u.textContent = typed('https://YOUR_DOMAIN/mcp', lt, 8.4, 24); c.cn.classList.toggle('on', lt > 9.8);
+  fadeUp(c.cl, es(lt, 7.4, 8.2)); c.u.textContent = typed('https://YOUR_DOMAIN/mcp', lt, 8.4, 24); c.cn.classList.toggle('on', lt > 9.8); fadeUp(c.ok2, es(lt, 10, 10.6));
   fadeUp(c.big, es(lt, 10.4, 11.2));
 } });
 
@@ -282,9 +320,10 @@ SC.push({ title: 'Limits, honestly', dur: 12, ex: false, build(r) {
   const lim = ['One browser per place, up to three places at a time', 'Title, address and status of a page, not its content', 'The place is checked by geolocation, as good as its databases', 'You need a VPN provider with servers in that place'];
   const L = A(r, '', 60, 140, 640, 440, `<div class="lbl" style="margin-bottom:14px">Starter kit · current limits</div>` + lim.map(t => `<div class="li" style="font:600 22px/1.35 var(--ui);margin:0 0 20px;padding-left:18px;border-left:3px solid var(--warn)">${t}</div>`).join(''));
   const add = ['OAuth', 'Per-user authorisation', 'Rate limits', 'Audit logs', 'DNS leak tests', 'Kill switch'];
-  const R = A(r, 'card', 740, 150, 480, 300, `<div style="font:700 23px var(--ui);margin-bottom:14px">Before offering it to others, add:</div><div style="display:flex;flex-wrap:wrap;gap:10px">${add.map(t => `<span class="chip ad" style="font:15px var(--ui);padding:6px 12px">${t}</span>`).join('')}</div>`);
-  return { b, li: [...L.querySelectorAll('.li')], R, ad: [...R.querySelectorAll('.ad')] };
-}, update(c, lt) { typePrompts(c.b, lt, [[.3, 'What are the limits?']]); c.li.forEach((e, i) => fadeUp(e, es(lt, 1.4 + i * .7, 2.1 + i * .7))); fadeUp(c.R, es(lt, 4.6, 5.4)); c.ad.forEach((e, i) => op(e, es(lt, 5.4 + i * .35, 5.8 + i * .35))); } });
+  const W = A(r, 'card', 740, 380, 480, 110, `<div style="display:flex;gap:14px;align-items:flex-start"><svg viewBox="0 0 28 28" width="34" height="34" style="flex:none"><path d="M14 3 26 24H2z" fill="none" stroke="#F2B84B" stroke-width="2.2" stroke-linejoin="round"/><path d="M14 11v6" stroke="#F2B84B" stroke-width="2.4" stroke-linecap="round"/><circle cx="14" cy="20.5" r="1.4" fill="#F2B84B"/></svg><div><b>Keep personal accounts out</b><p class="cap" style="margin:6px 0 0;font-size:15px">Never sign in or type passwords in this browser.</p></div></div>`);
+  const R = A(r, 'card', 740, 150, 480, 210, `<div style="font:700 23px var(--ui);margin-bottom:14px">Before offering it to others, add:</div><div style="display:flex;flex-wrap:wrap;gap:10px">${add.map(t => `<span class="chip ad" style="font:15px var(--ui);padding:6px 12px">${t}</span>`).join('')}</div>`);
+  return { b, li: [...L.querySelectorAll('.li')], R, W, ad: [...R.querySelectorAll('.ad')] };
+}, update(c, lt) { typePrompts(c.b, lt, [[.3, 'What are the limits?']]); c.li.forEach((e, i) => fadeUp(e, es(lt, 1.4 + i * .7, 2.1 + i * .7))); fadeUp(c.R, es(lt, 4.6, 5.4)); c.ad.forEach((e, i) => op(e, es(lt, 5.4 + i * .35, 5.8 + i * .35))); fadeUp(c.W, es(lt, 7.8, 8.6)); } });
 
 /* 11. Outro */
 SC.push({ title: 'Claude VPN MCP', dur: 6, ex: false, build(r) {
