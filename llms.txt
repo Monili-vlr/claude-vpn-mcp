@@ -1,0 +1,18 @@
+# Claude VPN MCP
+
+> Write "activate my location in California": Claude opens a browser that goes online from there through Tor. Free, nothing else to install.
+
+Made by Monili VLR (https://monili-vlr.github.io/). How to get it: A free local MCP connector for Claude Desktop, built on Tor. Ask for the connector through the Monili VLR contact form.
+Works in: Claude, Tor, Free. Example of what you write: "Activate my location in California."
+
+## Tools the AI can call (5)
+- `vpn_activate`: Finds Tor exits in that place, builds the route, verifies the exit and makes it current.
+- `vpn_locations`: Places active now, the current one, and examples you can ask for.
+- `vpn_status`: Exit IP and its real city, region and country.
+- `vpn_deactivate`: Turns a place off: the browser first, then its Tor client.
+- `browser_open`: Opens a public page from the current place: final address, title and HTTP status.
+
+## More
+
+- [All Monili VLR products](https://monili-vlr.github.io/llms.txt)
+- [Contact and access](https://monili-vlr.github.io/#contact)
