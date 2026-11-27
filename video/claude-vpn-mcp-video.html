@@ -169,7 +169,7 @@ SC.push({ title: 'Claude VPN MCP', dur: 10, ex: false, build(r) {
   const chip = A(r, '', 90, 222, 600, 34, '<span class="chip on" style="font:700 14px var(--ui);padding:5px 12px">Free · built on Tor · MCP connector for Claude</span>');
   const t = A(r, '', 86, 270, 640, 90, '<div style="font:800 66px var(--ui);letter-spacing:2px">Claude VPN MCP</div>');
   const s1 = A(r, '', 90, 362, 560, 90, '<div style="font:700 30px/1.3 var(--ui)">Write where you want to be.<br><span style="color:var(--acc)">Claude does the rest.</span></div>');
-  const by = A(r, '', 90, 470, 400, 30, '<div class="cap">by MoniliAI</div>');
+  const by = A(r, '', 90, 470, 400, 30, '<div class="cap">by Monili VLR</div>');
   const chat = A(r, 'win', 700, 140, 520, 350, `<div class="tb"><span>Claude</span></div>
     <div style="padding:18px;display:flex;flex-direction:column;gap:14px">
       <div style="align-self:flex-end;max-width:380px;background:#24444E;border-radius:14px 14px 3px 14px;padding:11px 14px;font:17px/1.4 var(--ui)"><span class="ty"></span></div>
@@ -378,7 +378,7 @@ SC.push({ title: 'Limits, honestly', dur: 12, ex: false, build(r) {
 /* 11. Outro */
 SC.push({ title: 'Claude VPN MCP', dur: 6, ex: false, build(r) {
   A(r, 'grid-bg');
-  const box = A(r, '', 0, 180, 1280, 380, `<div style="display:flex;flex-direction:column;align-items:center;gap:16px;text-align:center">${LOGO(88)}<div style="font:800 58px var(--ui)">Claude VPN MCP</div><div style="font:700 28px var(--ui)">Write where you want to be. <span style="color:var(--acc)">Claude does the rest.</span></div><div style="font:600 20px var(--ui);color:var(--mute)">Free, through Tor.</div><div class="cap">by MoniliAI · monili-vlr.github.io/claude-vpn-mcp</div></div>`);
+  const box = A(r, '', 0, 180, 1280, 380, `<div style="display:flex;flex-direction:column;align-items:center;gap:16px;text-align:center">${LOGO(88)}<div style="font:800 58px var(--ui)">Claude VPN MCP</div><div style="font:700 28px var(--ui)">Write where you want to be. <span style="color:var(--acc)">Claude does the rest.</span></div><div style="font:600 20px var(--ui);color:var(--mute)">Free, through Tor.</div><div class="cap">by Monili VLR · monili-vlr.github.io/claude-vpn-mcp</div></div>`);
   return { box };
 }, update(c, lt) { fadeUp(c.box, es(lt, 0, 1)); } });
 
